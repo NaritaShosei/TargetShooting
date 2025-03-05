@@ -44,9 +44,8 @@ public class DragArrowController : MonoBehaviour
             _endPos = worldPos;
             var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxPower);
             _rb.useGravity = true;
-            Vector3 forceVector = new Vector3(force.x, force.y, 1);
 
-            _rb.AddForce(Vector3.Scale(_obj.transform.up, forceVector) * _power, ForceMode.Impulse);
+            _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
             _line.enabled = false;
         }
     }
