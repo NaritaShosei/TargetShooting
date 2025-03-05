@@ -48,5 +48,6 @@ public class DragArrowController : MonoBehaviour
             _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
             _line.enabled = false;
         }
+        Debug.Log(mousePos);
     }
 }
