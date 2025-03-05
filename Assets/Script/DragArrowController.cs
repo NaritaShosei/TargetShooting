@@ -16,6 +16,7 @@ public class DragArrowController : MonoBehaviour
     [SerializeField]
     float _maxPower = 5;
     Rigidbody _rb;
+    bool _isConflicted;
     void Start()
     {
         _line = GetComponent<LineRenderer>();
@@ -27,27 +28,33 @@ public class DragArrowController : MonoBehaviour
         var mousePos = Input.mousePosition;
         mousePos.z = _cameraDistance;
         var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        if (Input.GetMouseButtonDown(0))
+        if (!_isConflicted)
         {
-            _line.enabled = true;
-            _startPos = worldPos;
-            worldPos.z = -3;
-            _line.SetPosition(0, worldPos);
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            worldPos.z = -3;
-            _line.SetPosition(1, worldPos);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            _endPos = worldPos;
-            var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxPower);
-            _rb.useGravity = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                _line.enabled = true;
+                _startPos = worldPos;
+                worldPos.z = -3;
+                _line.SetPosition(0, worldPos);
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                worldPos.z = -3;
+                _line.SetPosition(1, worldPos);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                _endPos = worldPos;
+                var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxPower);
+                _rb.useGravity = true;
 
-            _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
-            _line.enabled = false;
+                _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
+                _line.enabled = false;
+            }
         }
-        Debug.Log(mousePos);
+    }
+    public void Collision()
+    {
+
     }
 }
