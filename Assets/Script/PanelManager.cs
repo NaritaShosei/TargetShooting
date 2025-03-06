@@ -6,9 +6,10 @@ public class PanelManager : MonoBehaviour
     float _score;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!GamaManager.Instance.IsConflicted && collision.gameObject.CompareTag("Player"))
         {
             GamaManager.Instance.AddScore(_score);
+            GamaManager.Instance.Conflict();
         }
     }
 }

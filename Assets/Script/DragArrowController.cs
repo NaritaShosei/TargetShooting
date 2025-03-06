@@ -16,7 +16,6 @@ public class DragArrowController : MonoBehaviour
     [SerializeField]
     float _maxPower = 5;
     Rigidbody _rb;
-    bool _isConflicted;
     void Start()
     {
         _line = GetComponent<LineRenderer>();
@@ -28,10 +27,11 @@ public class DragArrowController : MonoBehaviour
         var mousePos = Input.mousePosition;
         mousePos.z = _cameraDistance;
         var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        if (!_isConflicted)
+        if (!GamaManager.Instance.IsConflicted)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                GamaManager.Instance.ResetEvent += SetPosition;
                 _line.enabled = true;
                 _startPos = worldPos;
                 worldPos.z = -3;
@@ -53,8 +53,8 @@ public class DragArrowController : MonoBehaviour
             }
         }
     }
-    public void Collision()
+    void SetPosition()
     {
-
+        _obj.transform.position = _origin.position;
     }
 }
