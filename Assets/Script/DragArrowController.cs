@@ -64,4 +64,8 @@ public class DragArrowController : MonoBehaviour
         _rb.useGravity = false;
         _obj.transform.position = _origin.position;
     }
+    private void OnDisable()
+    {
+        GamaManager.Instance.ResetEvent -= SetPosition;
+    }
 }

@@ -29,8 +29,14 @@ public class GamaManager : MonoBehaviour
     }
     public void SceneChange(string name)
     {
-        SceneManager.LoadScene(name);
-        ResetEvent = null;
+        if (name != "0")
+        {
+            SceneManager.LoadScene(name);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
     }
     public void Conflict(bool flg)
     {
