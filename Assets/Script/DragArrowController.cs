@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DragArrowController : MonoBehaviour
@@ -16,6 +17,7 @@ public class DragArrowController : MonoBehaviour
     [SerializeField]
     float _maxPower = 5;
     Rigidbody _rb;
+    bool _isShoot;
     void Start()
     {
         _line = GetComponent<LineRenderer>();
@@ -27,7 +29,7 @@ public class DragArrowController : MonoBehaviour
         var mousePos = Input.mousePosition;
         mousePos.z = _cameraDistance;
         var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        if (!GamaManager.Instance.IsConflicted)
+        if (!_isShoot)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -50,11 +52,16 @@ public class DragArrowController : MonoBehaviour
 
                 _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
                 _line.enabled = false;
+                _isShoot = true;
             }
         }
     }
     void SetPosition()
     {
+        _rb.linearVelocity = Vector3.zero;
+        GamaManager.Instance.Conflict(false);
+        _isShoot = false;
+        _rb.useGravity = false;
         _obj.transform.position = _origin.position;
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,12 +32,17 @@ public class GamaManager : MonoBehaviour
         SceneManager.LoadScene(name);
         ResetEvent = null;
     }
-    public void Conflict()
+    public void Conflict(bool flg)
     {
-        _isConflicted = true;
+        _isConflicted = flg;
     }
-    public void PositionSet()
+    public void PositionReset()
     {
         ResetEvent?.Invoke();
+    }
+    public async UniTask Reset()
+    {
+        await UniTask.Delay(2500);
+        PositionReset();
     }
 }
