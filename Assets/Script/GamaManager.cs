@@ -6,7 +6,8 @@ public class GamaManager : MonoBehaviour
 {
     public static GamaManager Instance { get; private set; }
     private float _score;
-    public bool IsConflicted;
+    public bool IsConflicted { get => _isConflicted; }
+    private bool _isConflicted;
     public Action ResetEvent;
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class GamaManager : MonoBehaviour
     }
     public void Conflict()
     {
-        IsConflicted = true;
+        _isConflicted = true;
     }
     public void PositionSet()
     {
