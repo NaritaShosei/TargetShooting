@@ -1,4 +1,5 @@
 
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PanelBase : MonoBehaviour
@@ -7,13 +8,13 @@ public class PanelBase : MonoBehaviour
     {
         if (!GamaManager.Instance.IsConflicted && collision.gameObject.CompareTag("Player"))
         {
-            Collision();
-            await GamaManager.Instance.Reset();
+            await Collision();
         }
     }
 
-    protected virtual void Collision()
+    protected virtual async UniTask Collision()
     {
         GamaManager.Instance.Conflict(true);
+        await GamaManager.Instance.Reset();
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PanelManager : MonoBehaviour
@@ -15,9 +16,9 @@ public class PanelManager : MonoBehaviour
             _dic.Add(item, true);
         }
     }
-    public void ValueChange(ScorePanel panel)
+    public bool ValueChange(ScorePanel panel)
     {
-        if (!_dic.ContainsKey(panel)) return;
         _dic[panel] = false;
+        return _dic.Values.All(x => !x);
     }
 }
