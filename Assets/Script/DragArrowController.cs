@@ -14,7 +14,9 @@ public class DragArrowController : MonoBehaviour
     [SerializeField]
     float _power;
     [SerializeField]
-    float _maxPower = 5;
+    float _maxDistance = 100;
+    [SerializeField]
+    float _minDistance;
     Rigidbody _rb;
     bool _isShoot;
     void Start()
@@ -46,10 +48,10 @@ public class DragArrowController : MonoBehaviour
             else if (Input.GetMouseButtonUp(0))
             {
                 _endPos = worldPos;
-                var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxPower);
+                var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxDistance);
                 _rb.useGravity = true;
 
-                _rb.AddForce(_obj.transform.up * force.y + _obj.transform.right * force.x, ForceMode.Impulse);
+                _rb.AddForce((_obj.transform.up * force.y + _obj.transform.right * force.x) * _power, ForceMode.Impulse);
                 _line.enabled = false;
                 _isShoot = true;
             }
