@@ -19,6 +19,7 @@ public class DragArrowController : MonoBehaviour
     float _minDistance;
     Rigidbody _rb;
     bool _isShoot;
+    bool _isDrag;
     void Start()
     {
         _line = GetComponent<LineRenderer>();
@@ -39,14 +40,17 @@ public class DragArrowController : MonoBehaviour
                 _startPos = worldPos;
                 worldPos.z = -3;
                 _line.SetPosition(0, worldPos);
+                _isDrag = true;
             }
             else if (Input.GetMouseButton(0))
             {
+                if (!_isDrag) return;
                 worldPos.z = -3;
                 _line.SetPosition(1, worldPos);
             }
             else if (Input.GetMouseButtonUp(0))
             {
+                if (!_isDrag) return;
                 _endPos = worldPos;
                 var force = Vector2.ClampMagnitude(_startPos - _endPos, _maxDistance);
                 _rb.useGravity = true;
@@ -54,6 +58,7 @@ public class DragArrowController : MonoBehaviour
                 _rb.AddForce((_obj.transform.up * force.y + _obj.transform.right * force.x) * _power, ForceMode.Impulse);
                 _line.enabled = false;
                 _isShoot = true;
+                _isDrag = false;
             }
         }
     }
